@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)file:///C:/Users/hnjeo/Downloads/golf_reservation_1.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>골프 예약 신청</title>
+<link href="./골프 예약 신청_files/css2" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --border-strong: #c8c5bb;
+    --text: #1a1916;
+    --text-muted: #6b6860;
+    --text-faint: #a09e99;
+    --accent: #1a6b3c;
+    --accent-light: #e8f4ed;
+    --accent-text: #0f4225;
+    --blue: #1a4a7a;
+    --blue-light: #e8f0f8;
+    --blue-text: #0d2e4e;
+    --red: #9b2020;
+    --red-light: #fdeaea;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .page-wrap { max-width: 640px; margin: 0 auto; }
+
+  .page-header { margin-bottom: 2rem; }
+
+  .logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px;
+  }
+
+  .page-title { font-size: 20px; font-weight: 700; }
+  .page-sub { font-size: 13px; color: var(--text-muted); margin-left: 46px; }
+
+  .tab-bar {
+    display: flex; background: var(--border);
+    border-radius: var(--radius); padding: 4px; gap: 4px; margin-bottom: 1.5rem;
+  }
+
+  .tab {
+    flex: 1; padding: 8px; border: none; background: none;
+    border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+    cursor: pointer; color: var(--text-muted); font-family: inherit; transition: all 0.15s;
+  }
+
+  .tab.active {
+    background: var(--surface); color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem; margin-bottom: 12px;
+  }
+
+  .card-label {
+    font-size: 11px; font-weight: 700; color: var(--text-faint);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+
+  label { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .req { color: #c0392b; }
+
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%; padding: 9px 11px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg); color: var(--text);
+    font-size: 14px; font-family: inherit; transition: border-color 0.15s;
+    -webkit-appearance: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--accent); background: white;
+  }
+
+  textarea { resize: none; min-height: 80px; }
+
+  .time-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .time-slot { display: flex; flex-direction: column; gap: 6px; }
+
+  .time-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 10px;
+    border-radius: 20px; width: fit-content; letter-spacing: 0.02em;
+  }
+
+  .t1 { background: var(--blue-light); color: var(--blue-text); }
+  .t2 { background: var(--accent-light); color: var(--accent-text); }
+  .t3 { background: #f1f0ec; color: var(--text-muted); }
+
+  .companion-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .companion-row input { flex: 1; }
+
+  .remove-btn {
+    width: 32px; height: 32px; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); background: none; cursor: pointer;
+    color: var(--text-faint); font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.15s;
+  }
+
+  .remove-btn:hover { background: var(--red-light); color: var(--red); border-color: #f5c6c6; }
+
+  .add-btn {
+    background: none; border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-sm); color: var(--text-muted);
+    font-size: 13px; padding: 8px 12px; cursor: pointer;
+    width: 100%; text-align: left; font-family: inherit; transition: all 0.15s;
+  }
+
+  .add-btn:hover { background: var(--bg); border-color: var(--accent); color: var(--accent); }
+
+  .submit-area { display: flex; gap: 10px; margin-top: 1.5rem; }
+
+  .btn-submit {
+    flex: 1; background: var(--accent); color: white; border: none;
+    border-radius: var(--radius); padding: 12px 20px;
+    font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: opacity 0.15s;
+  }
+
+  .btn-submit:hover { opacity: 0.88; }
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-reset {
+    background: none; border: 1px solid var(--border-strong);
+    border-radius: var(--radius); padding: 12px 16px;
+    font-size: 14px; cursor: pointer; color: var(--text-muted);
+    font-family: inherit; transition: all 0.15s;
+  }
+
+  .btn-reset:hover { background: var(--bg); }
+
+  .teams-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-faint);
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .teams-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  .res-item {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px; margin-bottom: 10px; background: var(--surface);
+  }
+
+  .res-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .res-name { font-size: 15px; font-weight: 700; }
+  .badges { display: flex; gap: 6px; }
+
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+  .badge-ok { background: var(--accent-light); color: var(--accent-text); }
+  .badge-teams-ok { background: var(--blue-light); color: var(--blue-text); }
+  .badge-teams-fail { background: var(--red-light); color: var(--red); }
+
+  .res-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .meta { font-size: 12px; color: var(--text-muted); }
+
+  .empty { text-align: center; padding: 3rem 0; color: var(--text-faint); font-size: 14px; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--text); color: white;
+    padding: 11px 22px; border-radius: var(--radius);
+    font-size: 13px; opacity: 0; transition: all 0.25s;
+    pointer-events: none; z-index: 999; white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div class="logo-row">
+      <div class="logo-icon">⛳</div>
+      <span class="page-title">골프 예약 신청</span>
+    </div>
+    <div class="page-sub">잭니클라우스CC 회원권 예약 신청 시스템</div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab(&#39;form&#39;)">📋 예약 신청</button>
+    <button class="tab" onclick="showTab(&#39;list&#39;)">📌 예약 현황</button>
+  </div>
+
+  <div id="tab-form">
+
+    <div class="card">
+      <div class="card-label">신청자 정보</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>신청자명 <span class="req">*</span></label>
+          <input type="text" id="applicant" placeholder="성함 입력">
+        </div>
+        <div class="form-group">
+          <label>라운드 날짜 <span class="req">*</span></label>
+          <input type="date" id="date">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">선호 시간대</div>
+      <div class="time-grid">
+        <div class="time-slot">
+          <span class="time-badge t1">1순위 <span class="req">*</span></span>
+          <select id="time1">
+            <option value="">선택</option>
+            <option>06:00 ~ 07:00</option><option>07:00 ~ 08:00</option><option>08:00 ~ 09:00</option>
+            <option>09:00 ~ 10:00</option><option>10:00 ~ 11:00</option><option>11:00 ~ 12:00</option>
+            <option>12:00 ~ 13:00</option><option>13:00 ~ 14:00</option><option>14:00 ~ 15:00</option>
+            <option>15:00 ~ 16:00</option>
+          </select>
+        </div>
+        <div class="time-slot">
+          <span class="time-badge t2">2순위</span>
+          <select id="time2">
+            <option value="">선택</option>
+            <option>06:00 ~ 07:00</option><option>07:00 ~ 08:00</option><option>08:00 ~ 09:00</option>
+            <option>09:00 ~ 10:00</option><option>10:00 ~ 11:00</option><option>11:00 ~ 12:00</option>
+            <option>12:00 ~ 13:00</option><option>13:00 ~ 14:00</option><option>14:00 ~ 15:00</option>
+            <option>15:00 ~ 16:00</option>
+          </select>
+        </div>
+        <div class="time-slot">
+          <span class="time-badge t3">3순위</span>
+          <select id="time3">
+            <option value="">선택</option>
+            <option>06:00 ~ 07:00</option><option>07:00 ~ 08:00</option><option>08:00 ~ 09:00</option>
+            <option>09:00 ~ 10:00</option><option>10:00 ~ 11:00</option><option>11:00 ~ 12:00</option>
+            <option>12:00 ~ 13:00</option><option>13:00 ~ 14:00</option><option>14:00 ~ 15:00</option>
+            <option>15:00 ~ 16:00</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">동반자 <span class="req">*</span> (최대 3명)</div>
+      <div id="companions">
+        <div class="companion-row">
+          <input type="text" placeholder="동반자 성함 (필수)">
+          <button class="remove-btn" onclick="removeCompanion(this)" title="삭제">×</button>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addCompanion()">+ 동반자 추가</button>
+    </div>
+
+    <div class="card">
+      <div class="card-label">라운드 목적 <span class="req">*</span></div>
+      <div class="form-group">
+        <textarea id="purpose" placeholder="라운드 목적을 직접 입력해주세요 (예: 거래처 접대, 투자자 미팅 등)"></textarea>
+      </div>
+    </div>
+
+    <div class="teams-row">
+      <div class="teams-dot"></div>
+      Teams 채널 알림 연동 완료 — 신청 시 자동 발송됩니다
+    </div>
+
+    <div class="submit-area">
+      <button class="btn-reset" onclick="resetForm()">↺ 초기화</button>
+      <button class="btn-submit" id="submit-btn" onclick="submitForm()">
+        <span id="btn-text">예약 신청 + Teams 알림 전송</span>
+      </button>
+    </div>
+
+  </div>
+
+  <div id="tab-list" style="display:none;">
+    <div id="reservation-list">
+      <div class="empty">아직 접수된 예약이 없습니다</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WEBHOOK_URL = "https://reverentpartnerscom857.webhook.office.com/webhookb2/68dec0ee-6b1d-41de-8b89-aeee54da1050@c55a0da9-60a5-40ec-8e65-5e7459cb1c4b/IncomingWebhook/d7aae36c59d54c09a395f6d714cb7d6e/86abb5b8-6a6f-48e6-8de7-6d5b549c6e1a/V2aX2nrTdZy-MpDGy399JJdO9C_J5fnG0U-_LIb6CAdr81";
+let reservations = [];
+
+function showToast(msg, d=3500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), d);
+}
+
+function showTab(tab) {
+  document.getElementById('tab-form').style.display = tab === 'form' ? 'block' : 'none';
+  document.getElementById('tab-list').style.display = tab === 'list' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach((t,i) =>
+    t.classList.toggle('active', (tab==='form'&&i===0)||(tab==='list'&&i===1)));
+  if (tab === 'list') renderList();
+}
+
+function addCompanion() {
+  const c = document.getElementById('companions');
+  if (c.children.length >= 3) { showToast('동반자는 최대 3명까지 입력 가능합니다.'); return; }
+  const row = document.createElement('div');
+  row.className = 'companion-row';
+  row.innerHTML = '<input type="text" placeholder="동반자 성함"><button class="remove-btn" onclick="removeCompanion(this)" title="삭제">×</button>';
+  c.appendChild(row);
+}
+
+function removeCompanion(btn) {
+  const c = document.getElementById('companions');
+  if (c.children.length <= 1) { btn.previousElementSibling.value = ''; return; }
+  btn.parentElement.remove();
+}
+
+function resetForm() {
+  document.getElementById('applicant').value = '';
+  document.getElementById('date').value = '';
+  ['time1','time2','time3'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('purpose').value = '';
+  document.getElementById('companions').innerHTML =
+    '<div class="companion-row"><input type="text" placeholder="동반자 성함 (필수)"><button class="remove-btn" onclick="removeCompanion(this)" title="삭제">×</button></div>';
+}
+
+async function sendTeamsMessage(data) {
+  const companions = data.companions.join(', ');
+  const times = [
+    data.time1 ? `1순위: ${data.time1}` : null,
+    data.time2 ? `2순위: ${data.time2}` : null,
+    data.time3 ? `3순위: ${data.time3}` : null
+  ].filter(Boolean).join(' / ');
+
+  const payload = {
+    type: "message",
+    attachments: [{
+      contentType: "application/vnd.microsoft.card.adaptive",
+      content: {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        type: "AdaptiveCard", version: "1.4",
+        body: [
+          { type: "TextBlock", text: "⛳ 골프 예약 신청이 접수되었습니다", weight: "Bolder", size: "Medium", color: "Accent" },
+          { type: "FactSet", facts: [
+            { title: "신청자", value: data.applicant },
+            { title: "라운드 날짜", value: data.date },
+            { title: "선호 시간대", value: times || "-" },
+            { title: "동반자", value: companions },
+            { title: "라운드 목적", value: data.purpose },
+            { title: "신청일시", value: new Date().toLocaleString('ko-KR') }
+          ]}
+        ]
+      }
+    }]
+  };
+
+  const resp = await fetch(WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  return resp.ok;
+}
+
+async function submitForm() {
+  const applicant = document.getElementById('applicant').value.trim();
+  const date = document.getElementById('date').value;
+  const time1 = document.getElementById('time1').value;
+  const purpose = document.getElementById('purpose').value.trim();
+  const companions = Array.from(document.querySelectorAll('#companions input'))
+    .map(i => i.value.trim()).filter(Boolean);
+
+  if (!applicant) { showToast('⚠️ 신청자명을 입력해주세요.'); return; }
+  if (!date) { showToast('⚠️ 라운드 날짜를 선택해주세요.'); return; }
+  if (!time1) { showToast('⚠️ 1순위 시간대를 선택해주세요.'); return; }
+  if (companions.length === 0) { showToast('⚠️ 동반자명을 최소 1명 입력해주세요.'); return; }
+  if (!purpose) { showToast('⚠️ 라운드 목적을 입력해주세요.'); return; }
+
+  const data = {
+    applicant, date, time1,
+    time2: document.getElementById('time2').value,
+    time3: document.getElementById('time3').value,
+    companions, purpose,
+    submittedAt: new Date().toLocaleString('ko-KR'),
+    teamsOk: false
+  };
+
+  const btn = document.getElementById('submit-btn');
+  const btnText = document.getElementById('btn-text');
+  btn.disabled = true; btnText.textContent = '전송 중...';
+
+  try { data.teamsOk = await sendTeamsMessage(data); } catch(e) { data.teamsOk = false; }
+
+  reservations.unshift({ id: Date.now(), ...data });
+  btn.disabled = false; btnText.textContent = '예약 신청 + Teams 알림 전송';
+
+  showToast(data.teamsOk ? '✅ 예약 접수 + Teams 알림 전송 완료!' : '📋 예약 접수 완료 (Teams 전송 실패)', 4000);
+  resetForm();
+  showTab('list');
+}
+
+function renderList() {
+  const el = document.getElementById('reservation-list');
+  if (!reservations.length) {
+    el.innerHTML = '<div class="empty">아직 접수된 예약이 없습니다</div>';
+    return;
+  }
+  el.innerHTML = reservations.map(r => `
+    <div class="res-item">
+      <div class="res-head">
+        <span class="res-name">${r.applicant}</span>
+        <div class="badges">
+          <span class="badge ${r.teamsOk ? 'badge-teams-ok' : 'badge-teams-fail'}">
+            Teams ${r.teamsOk ? '✓ 전송완료' : '✗ 전송실패'}
+          </span>
+          <span class="badge badge-ok">접수완료</span>
+        </div>
+      </div>
+      <div class="res-meta">
+        <span class="meta">📅 ${r.date}</span>
+        <span class="meta">⏰ 1순위 ${r.time1}${r.time2 ? ' · 2순위 ' + r.time2 : ''}${r.time3 ? ' · 3순위 ' + r.time3 : ''}</span>
+        <span class="meta">👥 ${r.companions.join(', ')}</span>
+        <span class="meta">🏌️ ${r.purpose}</span>
+        <span class="meta" style="margin-left:auto; color:#bbb;">${r.submittedAt}</span>
+      </div>
+    </div>
+  `).join('');
+}
+</script>
+
+
+</body></html>
